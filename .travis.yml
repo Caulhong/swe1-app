@@ -18,6 +18,7 @@ deploy:
   secret_access_key: $secret_access_key
   app: django-tutorial
   env: django-env
+  bucket_name: elasticbeanstalk-us-west-2-590183960597
   on:
     branch: main
   skip_cleanup: 'true'
