@@ -1,4 +1,31 @@
-language: ruby
-rvm:
- - 2.2
- - jruby
+language: python
+
+python:
+    - "3.9"
+
+install:
+  - pip install 'urllib3<2.0'
+  - pip install -r requirements.txt
+
+before_script:
+  - python manage.py migrate
+
+script:
+  - black --check .
+  - flake8
+  - coverage run manage.py test
+
+after_script:
+  - coveralls
+
+  
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $access_key_id
+  secret_access_key: $secret_access_key
+  region: "us-east-1"
+  app: "poll-application"
+  env: "poll-application-integration"
+  bucket_name: "elasticbeanstalk-us-east-1-508829990173"
+  on:
+      branch: main
